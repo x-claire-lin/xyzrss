@@ -1,6 +1,5 @@
 from pathlib import Path
 import urllib.request
-import xml.etree.ElementTree as ET
 import re
 
 
@@ -21,9 +20,7 @@ def fetch_feed(feed_id):
     )
 
     with urllib.request.urlopen(request, timeout=30) as response:
-        data = response.read()
-
-    return data
+        return response.read()
 
 
 def fix_feed(data, feed_id):
@@ -33,27 +30,26 @@ def fix_feed(data, feed_id):
         audio/mp4
             ↓
         audio/x-m4a
-
-    Everything else remains unchanged.
     """
 
     text = data.decode("utf-8")
 
-    original_count = text.count('type="audio/mp4"')
+    def replace_enclosure(match):
+        tag = match.group(0)
 
-    text = text.replace(
-        'type="audio/mp4"',
-        'type="audio/x-m4a"'
+        return tag.replace(
+            'type="audio/mp4"',
+            'type="audio/x-m4a"'
+        )
+
+    fixed = re.sub(
+        r"<enclosure\b[^>]*/?>",
+        replace_enclosure,
+        text,
+        flags=re.IGNORECASE
     )
 
-    fixed_count = text.count('type="audio/x-m4a"')
-
-    print(
-        f"{feed_id}: "
-        f"replaced {original_count} enclosure(s)"
-    )
-
-    return text.encode("utf-8")
+    return fixed.encode("utf-8")
 
 
 def main():
@@ -64,46 +60,45 @@ def main():
     if not feeds_file.exists():
         raise FileNotFoundError("feeds.txt not found")
 
-    feed_ids = []
+    feeds = []
 
     for line in feeds_file.read_text(encoding="utf-8").splitlines():
+
         line = line.strip()
 
+        # Empty line
         if not line:
             continue
 
+        # Full-line comment
         if line.startswith("#"):
             continue
 
-        # Feed IDs should only contain these characters.
-        if not re.fullmatch(r"[A-Za-z0-9_-]+", line):
-            print(f"Skipping invalid feed ID: {line}")
+        # Remove inline comment
+        feed_id = line.split("#", 1)[0].strip()
+
+        # Validate feed ID
+        if not re.fullmatch(r"[A-Za-z0-9_-]+", feed_id):
+            print(f"Skipping invalid feed ID: {feed_id}")
             continue
 
-        feed_ids.append(line)
+        feeds.append(feed_id)
 
-    if not feed_ids:
-        raise RuntimeError("No feed IDs found in feeds.txt")
+    if not feeds:
+        raise RuntimeError("No valid feed IDs found")
 
-    for feed_id in feed_ids:
+    for feed_id in feeds:
         try:
             original = fetch_feed(feed_id)
-
-            fixed = fix_feed(
-                original,
-                feed_id
-            )
+            fixed = fix_feed(original, feed_id)
 
             output_file = OUTPUT_DIR / f"{feed_id}.xml"
-
             output_file.write_bytes(fixed)
 
             print(f"Written: {output_file}")
 
         except Exception as e:
-            print(
-                f"ERROR processing {feed_id}: {e}"
-            )
+            print(f"ERROR processing {feed_id}: {e}")
 
     print("Done.")
 
