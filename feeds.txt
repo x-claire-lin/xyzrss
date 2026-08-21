@@ -1,16 +1,19 @@
-6keeqnqy6vrr
-6xkltdh9kfav
-uhfae7xlb9ub
-y44m4pbkv9pq
-v44bj79nutgy
-p86qpyxxcpfl
-bwkfc67mvv4n
-hxflthjklyda
-fr3xc4vugtrq
-98t4c67awp76
-tvj9rnjbrhtk
-76evp7fxkeu8
-xy3wacl7ud7h
-c434wfmtpc3n
-jxlmvkdl89cv
-36pjtvfwngyn
+# 小宇宙 RSS feeds
+# 格式：Feed ID # 节目名称
+
+6xkltdh9kfav # 历史学人
+uhfae7xlb9ub # 团力结构
+y44m4pbkv9pq # 电影巨辩5min
+v44bj79nutgy # 昨日之海
+p86qpyxxcpfl # 不许联想
+bwkfc67mvv4n # 厨此以外
+hxflthjklyda # 严艺家
+fr3xc4vugtrq # 野生塔罗
+98t4c67awp76 # 自然选择
+tvj9rnjbrhtk # 摩罗之声
+76evp7fxkeu8 # 西西弗高速
+xy3wacl7ud7h # 在场证明
+c434wfmtpc3n # 歧义 La politique
+jxlmvkdl89cv # 我醒来在寒冷的山坡上
+36pjtvfwngyn # 翻转台电（翻电）
+6keeqnqy6vrr # 灰度纪年
