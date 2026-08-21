@@ -1,0 +1,52 @@
+name: Update Xiaoyuzhou RSS
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # Every 30 minutes
+    - cron: "*/30 * * * *"
+
+  push:
+    branches:
+      - main
+    paths:
+      - "feeds.txt"
+      - "generate.py"
+      - ".github/workflows/update-rss.yml"
+
+
+permissions:
+  contents: write
+
+
+jobs:
+  update-rss:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate RSS feeds
+        run: |
+          python generate.py
+
+      - name: Commit updated feeds
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add docs/
+
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Update RSS feeds"
+            git push
+          fi
