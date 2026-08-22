@@ -1,15 +1,19 @@
 name: Update Xiaoyuzhou RSS
 
 on:
-
   workflow_dispatch:
 
-    inputs:
+  schedule:
+    # Every 8 hours
+    - cron: "0 */8 * * *"
 
-      feed_id:
-        description: "Feed ID. Leave empty to update all feeds."
-        required: false
-        type: string
+  push:
+    branches:
+      - main
+    paths:
+      - "feeds.txt"
+      - "generate.py"
+      - ".github/workflows/update-rss.yml"
 
 
 permissions:
@@ -17,172 +21,32 @@ permissions:
 
 
 jobs:
-
   update-rss:
-
     runs-on: ubuntu-latest
 
-
     steps:
-
       - name: Checkout repository
-        uses: actions/checkout@v5
-
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-
-      - name: Show environment
+      - name: Generate RSS feeds
         run: |
+          python generate.py
 
-          echo "========================================"
-          echo "Python"
-          python --version
-
-          echo
-          echo "Working directory"
-          pwd
-
-          echo
-          echo "Repository files"
-          ls -la
-
-          echo
-          echo "feeds.txt"
-          cat feeds.txt
-
-          echo "========================================"
-
-
-      - name: Test Xiaoyuzhou connection
+      - name: Commit updated feeds
         run: |
-
-          python - <<'PY'
-
-          import urllib.request
-          import ssl
-
-          url = "https://feed.xyzfm.space/6xkltdh9kfav"
-
-          print("Testing:")
-          print(url)
-          print()
-
-          print("Python SSL:")
-          print(ssl.OPENSSL_VERSION)
-          print()
-
-          request = urllib.request.Request(
-              url,
-              headers={
-                  "User-Agent": (
-                      "Mozilla/5.0 "
-                      "(compatible; xyzrss/1.0)"
-                  ),
-                  "Accept": (
-                      "application/rss+xml, "
-                      "application/xml, "
-                      "text/xml, "
-                      "*/*"
-                  ),
-              },
-          )
-
-          try:
-
-              with urllib.request.urlopen(
-                  request,
-                  timeout=30
-              ) as response:
-
-                  print(
-                      "HTTP status:",
-                      response.status
-                  )
-
-                  print(
-                      "Content-Type:",
-                      response.headers.get(
-                          "Content-Type"
-                      )
-                  )
-
-                  data = response.read()
-
-                  print(
-                      "Downloaded bytes:",
-                      len(data)
-                  )
-
-                  print()
-                  print(
-                      "First 500 bytes:"
-                  )
-
-                  print(
-                      data[:500]
-                  )
-
-          except Exception as error:
-
-              print()
-              print(
-                  "REQUEST FAILED"
-              )
-
-              print(
-                  "Exception type:",
-                  type(error).__name__
-              )
-
-              print(
-                  "Exception:",
-                  str(error)
-              )
-
-              raise
-
-          PY
-
-
-      - name: Update all feeds
-        if: ${{ github.event.inputs.feed_id == '' || github.event.inputs.feed_id == null }}
-        run: |
-
-          python generate.py --all
-
-
-      - name: Update single feed
-        if: ${{ github.event.inputs.feed_id != '' && github.event.inputs.feed_id != null }}
-        run: |
-
-          python generate.py \
-            --feed "${{ github.event.inputs.feed_id }}"
-
-
-      - name: Commit generated files
-        run: |
-
-          git config user.name \
-            "github-actions[bot]"
-
-          git config user.email \
-            "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add docs/
 
           if git diff --cached --quiet; then
-
-            echo "No generated changes."
-
-            exit 0
-
+            echo "No changes."
+          else
+            git commit -m "Update RSS feeds"
+            git push
           fi
-
-          git commit \
-            -m "Update RSS feeds"
-
-          git push
