@@ -48,7 +48,7 @@ https://x-claire-lin.github.io/xyzrss/6xkltdh9kfav.xml
 
 ## 更新频率
 
-GitHub Actions 默认每两小时运行一次。
+GitHub Actions 默认每八小时运行一次。
 
 也可以在：
 
@@ -57,16 +57,6 @@ GitHub → Actions → Update Xiaoyuzhou RSS
 ```
 
 手动运行。
-
-如果填写 Feed ID：
-
-```text
-6xkltdh9kfav
-```
-
-则只更新这个节目。
-
-如果留空，则更新全部节目。
 
 ## 网页
 
@@ -80,10 +70,8 @@ https://x-claire-lin.github.io/xyzrss/
 
 * 查看当前播客列表
 * 复制 RSS URL
-* 打开 RSS
 * 选择多个播客
 * 生成 OPML
-* 根据小宇宙 RSS 地址生成 `feeds.txt` 配置
 
 ## License
 
