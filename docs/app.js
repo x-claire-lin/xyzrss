@@ -1,37 +1,68 @@
-const API_BASE = "https://xyzrss.feishan0711.workers.dev";
+const REPOSITORY =
+  "https://github.com/x-claire-lin/xyzrss";
 
-const SITE_BASE = window.location.origin + "/xyzrss";
+const EDIT_FEEDS_URL =
+  `${REPOSITORY}/edit/main/feeds.txt`;
 
-const form = document.getElementById("rss-form");
-const urlInput = document.getElementById("rss-url");
-const checkButton = document.getElementById("check-button");
+const SITE_BASE =
+  window.location.origin +
+  window.location.pathname.replace(/\/$/, "");
 
-const statusBox = document.getElementById("status");
-const previewBox = document.getElementById("preview");
+const form =
+  document.getElementById("rss-form");
 
-const feedList = document.getElementById("feed-list");
-const selectAllButton = document.getElementById("select-all");
-const generateOpmlButton = document.getElementById("generate-opml");
+const urlInput =
+  document.getElementById("rss-url");
+
+const checkButton =
+  document.getElementById("check-button");
+
+const statusBox =
+  document.getElementById("status");
+
+const previewBox =
+  document.getElementById("preview");
+
+const feedList =
+  document.getElementById("feed-list");
+
+const selectAllButton =
+  document.getElementById("select-all");
+
+const generateOpmlButton =
+  document.getElementById("generate-opml");
+
+const editFeedsLink =
+  document.getElementById("edit-feeds-link");
 
 
 let feeds = [];
 
 
-function setStatus(message, type = "success") {
+editFeedsLink.href = EDIT_FEEDS_URL;
+
+
+function setStatus(
+  message,
+  type = "success"
+) {
   statusBox.textContent = message;
-  statusBox.className = `status ${type}`;
+  statusBox.className =
+    `status ${type}`;
 }
 
 
 function clearStatus() {
   statusBox.textContent = "";
-  statusBox.className = "status hidden";
+  statusBox.className =
+    "status hidden";
 }
 
 
 function clearPreview() {
   previewBox.innerHTML = "";
-  previewBox.className = "preview hidden";
+  previewBox.className =
+    "preview hidden";
 }
 
 
@@ -45,20 +76,43 @@ function escapeHtml(value) {
 }
 
 
+function escapeXml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+
 function fallbackCover() {
-  return "data:image/svg+xml;charset=UTF-8," +
+  return (
+    "data:image/svg+xml;charset=UTF-8," +
     encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="200"
-           height="200"
-           viewBox="0 0 200 200">
-        <rect width="200" height="200" fill="#e5e7eb"/>
-        <text x="100"
-              y="108"
-              text-anchor="middle"
-              font-size="70">♫</text>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="200"
+        height="200"
+        viewBox="0 0 200 200"
+      >
+        <rect
+          width="200"
+          height="200"
+          fill="#e5e7eb"
+        />
+
+        <text
+          x="100"
+          y="108"
+          text-anchor="middle"
+          font-size="70"
+        >
+          ♫
+        </text>
       </svg>
-    `);
+    `)
+  );
 }
 
 
@@ -67,507 +121,697 @@ function normalizeFeed(feed) {
     id: feed.id,
     title: feed.title || feed.id,
     image: feed.image || fallbackCover(),
-    source: feed.source,
-    rss: `${SITE_BASE}/${feed.rss}`
+    source:
+      feed.source ||
+      `https://feed.xyzfm.space/${feed.id}`,
+    rss:
+      `${SITE_BASE}/${feed.id}.xml`
   };
 }
 
 
-async function loadFeeds() {
-  try {
-    const response = await fetch("./feeds.json", {
-      cache: "no-store"
-    });
+async function loadFeedsFromJson() {
+  const response =
+    await fetch(
+      "./feeds.json",
+      {
+        cache: "no-store"
+      }
+    );
 
-    if (!response.ok) {
-      throw new Error("Failed to load feeds.json");
+  if (!response.ok) {
+    throw new Error(
+      "feeds.json unavailable"
+    );
+  }
+
+  const data =
+    await response.json();
+
+  return (data.feeds || [])
+    .map(normalizeFeed);
+}
+
+
+async function loadFeedsFromTxt() {
+  const response =
+    await fetch(
+      "./../feeds.txt",
+      {
+        cache: "no-store"
+      }
+    );
+
+  if (!response.ok) {
+    throw new Error(
+      "feeds.txt unavailable"
+    );
+  }
+
+  const text =
+    await response.text();
+
+  const result = [];
+
+  for (
+    const line of text.split(/\r?\n/)
+  ) {
+    const trimmed =
+      line.trim();
+
+    if (!trimmed) {
+      continue;
     }
 
-    const data = await response.json();
+    if (trimmed.startsWith("#")) {
+      continue;
+    }
 
-    feeds = (data.feeds || []).map(normalizeFeed);
+    const parts =
+      trimmed.split("#");
+
+    const id =
+      parts[0].trim();
+
+    const title =
+      parts
+        .slice(1)
+        .join("#")
+        .trim();
+
+    if (
+      !/^[A-Za-z0-9_-]+$/.test(id)
+    ) {
+      continue;
+    }
+
+    result.push(
+      normalizeFeed({
+        id,
+        title
+      })
+    );
+  }
+
+  return result;
+}
+
+
+async function loadFeeds() {
+
+  try {
+
+    try {
+      feeds =
+        await loadFeedsFromJson();
+    } catch {
+      feeds =
+        await loadFeedsFromTxt();
+    }
 
     renderFeeds();
 
   } catch (error) {
-    feedList.innerHTML = `
-      <div class="empty">
-        Unable to load the podcast library.
-      </div>
-    `;
 
     console.error(error);
+
+    feedList.innerHTML = `
+      <div class="empty">
+        无法加载播客列表。
+        <br>
+        请确认 GitHub Pages 已启用。
+      </div>
+    `;
   }
 }
 
 
 function renderFeeds() {
+
   if (!feeds.length) {
+
     feedList.innerHTML = `
       <div class="empty">
-        No podcasts in the library yet.
+        目前还没有播客。
       </div>
     `;
+
     return;
   }
 
-  feedList.innerHTML = feeds.map(feed => `
-    <div class="feed-item">
 
-      <input
-        class="feed-checkbox"
-        type="checkbox"
-        value="${escapeHtml(feed.id)}"
-        aria-label="Select ${escapeHtml(feed.title)}"
-      >
+  feedList.innerHTML =
+    feeds
+      .map(feed => `
 
-      <img
-        class="feed-cover"
-        src="${escapeHtml(feed.image)}"
-        alt=""
-        loading="lazy"
-        onerror="this.src='${fallbackCover()}'"
-      >
+        <div class="feed-item">
 
-      <div class="feed-info">
+          <input
+            class="feed-checkbox"
+            type="checkbox"
+            value="${escapeHtml(feed.id)}"
+            aria-label="选择 ${escapeHtml(feed.title)}"
+          >
 
-        <div class="feed-title">
-          ${escapeHtml(feed.title)}
+
+          <img
+            class="feed-cover"
+            src="${escapeHtml(feed.image)}"
+            alt=""
+            loading="lazy"
+            onerror="this.src='${fallbackCover()}';"
+          >
+
+
+          <div class="feed-info">
+
+            <div class="feed-title">
+              ${escapeHtml(feed.title)}
+            </div>
+
+            <div class="feed-id">
+              ${escapeHtml(feed.id)}
+            </div>
+
+          </div>
+
+
+          <div class="feed-buttons">
+
+            <button
+              class="secondary copy-button"
+              data-url="${escapeHtml(feed.rss)}"
+              type="button"
+            >
+              复制
+            </button>
+
+
+            <button
+              class="secondary open-button"
+              data-url="${escapeHtml(feed.rss)}"
+              type="button"
+            >
+              打开
+            </button>
+
+          </div>
+
         </div>
 
-        <div class="feed-id">
-          ${escapeHtml(feed.id)}
-        </div>
+      `)
+      .join("");
 
-      </div>
 
-      <div class="feed-buttons">
+  document
+    .querySelectorAll(".copy-button")
+    .forEach(button => {
 
-        <button
-          class="secondary copy-button"
-          data-url="${escapeHtml(feed.rss)}"
-        >
-          Copy
-        </button>
+      button.addEventListener(
+        "click",
+        async () => {
 
-        <button
-          class="secondary open-button"
-          data-url="${escapeHtml(feed.rss)}"
-        >
-          Open
-        </button>
+          await copyText(
+            button.dataset.url
+          );
 
-      </div>
+          const oldText =
+            button.textContent;
 
-    </div>
-  `).join("");
+          button.textContent =
+            "已复制";
 
-  document.querySelectorAll(".copy-button").forEach(button => {
-    button.addEventListener("click", async () => {
-      await copyText(button.dataset.url);
+          setTimeout(() => {
+            button.textContent =
+              oldText;
+          }, 1200);
 
-      const oldText = button.textContent;
-      button.textContent = "Copied";
+        }
+      );
 
-      setTimeout(() => {
-        button.textContent = oldText;
-      }, 1200);
     });
-  });
 
-  document.querySelectorAll(".open-button").forEach(button => {
-    button.addEventListener("click", () => {
-      window.open(button.dataset.url, "_blank", "noopener");
+
+  document
+    .querySelectorAll(".open-button")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          window.open(
+            button.dataset.url,
+            "_blank",
+            "noopener"
+          );
+
+        }
+      );
+
     });
-  });
 }
 
 
 async function copyText(text) {
+
   try {
-    await navigator.clipboard.writeText(text);
+
+    await navigator
+      .clipboard
+      .writeText(text);
+
   } catch {
-    const textarea = document.createElement("textarea");
+
+    const textarea =
+      document.createElement(
+        "textarea"
+      );
 
     textarea.value = text;
-    document.body.appendChild(textarea);
+
+    document.body.appendChild(
+      textarea
+    );
+
     textarea.select();
 
-    document.execCommand("copy");
+    document.execCommand(
+      "copy"
+    );
 
     textarea.remove();
   }
 }
 
 
-function showPreview(result) {
-  const title = escapeHtml(result.title || result.id);
-  const image = escapeHtml(result.image || fallbackCover());
+function parseFeedUrl(url) {
 
-  previewBox.innerHTML = `
-    <div class="preview-card">
-
-      <img
-        class="cover"
-        src="${image}"
-        alt=""
-        onerror="this.src='${fallbackCover()}'"
-      >
-
-      <div class="preview-info">
-
-        <div class="preview-title">
-          ${title}
-        </div>
-
-        <div class="preview-subtitle">
-          Xiaoyuzhou · ${escapeHtml(result.id)}
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="preview-actions">
-
-      ${
-        result.exists
-          ? `
-            <button
-              id="preview-copy"
-              class="secondary"
-            >
-              Copy RSS URL
-            </button>
-          `
-          : `
-            <button
-              id="add-button"
-            >
-              Add to library
-            </button>
-          `
-      }
-
-    </div>
-  `;
-
-  previewBox.className = "preview";
-
-
-  if (result.exists) {
-
-    const copyButton = document.getElementById("preview-copy");
-
-    copyButton.addEventListener("click", async () => {
-
-      await copyText(result.rss);
-
-      copyButton.textContent = "Copied";
-
-      setTimeout(() => {
-        copyButton.textContent = "Copy RSS URL";
-      }, 1200);
-
-    });
-
-  } else {
-
-    document
-      .getElementById("add-button")
-      .addEventListener("click", () => addFeed(result));
-
-  }
-}
-
-
-async function validateFeed(url) {
-
-  const endpoint =
-    `${API_BASE}/api/validate?url=${encodeURIComponent(url)}`;
-
-  const response = await fetch(endpoint);
-
-  let data;
+  let parsed;
 
   try {
-    data = await response.json();
+    parsed = new URL(url);
   } catch {
-    throw new Error("The API returned an invalid response.");
+    return null;
   }
 
-  if (!response.ok) {
-    throw new Error(data.error || "Validation failed.");
+
+  if (
+    parsed.protocol !== "https:"
+  ) {
+    return null;
   }
 
-  return data;
+
+  const hostname =
+    parsed.hostname.toLowerCase();
+
+
+  if (
+    hostname !== "feed.xyzfm.space"
+  ) {
+    return null;
+  }
+
+
+  const parts =
+    parsed.pathname
+      .split("/")
+      .filter(Boolean);
+
+
+  if (parts.length !== 1) {
+    return null;
+  }
+
+
+  const feedId =
+    parts[0];
+
+
+  if (
+    !/^[A-Za-z0-9_-]+$/.test(feedId)
+  ) {
+    return null;
+  }
+
+
+  return feedId;
 }
 
 
-async function addFeed(result) {
+function findExistingFeed(feedId) {
 
-  const addButton = document.getElementById("add-button");
-
-  if (addButton) {
-    addButton.disabled = true;
-    addButton.textContent = "Adding...";
-  }
-
-  setStatus(
-    "Adding the podcast and starting the RSS generation job...",
-    "success"
+  return feeds.find(
+    feed => feed.id === feedId
   );
-
-  try {
-
-    const response = await fetch(`${API_BASE}/api/add`, {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        url: result.source
-      })
-    });
+}
 
 
-    const data = await response.json();
+function showAddInstructions(
+  feedId
+) {
 
-    if (!response.ok) {
-      throw new Error(data.error || "Failed to add podcast.");
-    }
+  const existing =
+    findExistingFeed(feedId);
 
 
-    setStatus(
-      "Podcast added. The compatible RSS feed is being generated. " +
-      "It may take a short while before the URL becomes available.",
-      "success"
-    );
+  const sourceUrl =
+    `https://feed.xyzfm.space/${feedId}`;
 
+
+  if (existing) {
 
     previewBox.innerHTML = `
-      <div class="preview-card">
 
-        <img
-          class="cover"
-          src="${escapeHtml(result.image || fallbackCover())}"
-          alt=""
-          onerror="this.src='${fallbackCover()}'"
-        >
+      <div class="preview-card">
 
         <div class="preview-info">
 
           <div class="preview-title">
-            ${escapeHtml(result.title || result.id)}
+            ${escapeHtml(existing.title)}
           </div>
 
           <div class="preview-subtitle">
-            Added to library
+            已经在播客库中
           </div>
 
         </div>
 
       </div>
 
+
       <div class="preview-actions">
 
         <button
-          id="new-rss-copy"
+          id="existing-copy"
           class="secondary"
+          type="button"
         >
-          Copy RSS URL
+          复制 RSS URL
         </button>
 
+
         <button
-          id="new-rss-open"
-          class="secondary"
+          id="existing-open"
+          type="button"
         >
-          Open RSS
+          打开 RSS
         </button>
 
       </div>
+
     `;
 
-
-    const rssUrl =
-      `${SITE_BASE}/${result.id}.xml`;
-
-
-    document
-      .getElementById("new-rss-copy")
-      .addEventListener("click", async () => {
-
-        await copyText(rssUrl);
-
-        document.getElementById("new-rss-copy").textContent = "Copied";
-
-      });
+    previewBox.className =
+      "preview";
 
 
     document
-      .getElementById("new-rss-open")
-      .addEventListener("click", () => {
+      .getElementById("existing-copy")
+      .addEventListener(
+        "click",
+        async () => {
 
-        window.open(rssUrl, "_blank", "noopener");
+          await copyText(
+            existing.rss
+          );
 
-      });
-
-
-    // Refresh the library after a short delay.
-    setTimeout(loadFeeds, 5000);
-
-
-  } catch (error) {
-
-    setStatus(error.message, "error");
-
-    if (addButton) {
-      addButton.disabled = false;
-      addButton.textContent = "Add to library";
-    }
-  }
-}
+          setStatus(
+            "RSS URL 已复制。",
+            "success"
+          );
+        }
+      );
 
 
-form.addEventListener("submit", async event => {
+    document
+      .getElementById("existing-open")
+      .addEventListener(
+        "click",
+        () => {
 
-  event.preventDefault();
+          window.open(
+            existing.rss,
+            "_blank",
+            "noopener"
+          );
 
-  clearStatus();
-  clearPreview();
+        }
+      );
 
-  const url = urlInput.value.trim();
-
-  if (!url) {
-    setStatus("Please enter an RSS URL.", "warning");
     return;
   }
 
 
-  checkButton.disabled = true;
-  checkButton.textContent = "Checking...";
+  previewBox.innerHTML = `
+
+    <div class="preview-card">
+
+      <div class="preview-info">
+
+        <div class="preview-title">
+          Feed ID：${escapeHtml(feedId)}
+        </div>
+
+        <div class="preview-subtitle">
+          小宇宙 RSS 已识别
+        </div>
+
+      </div>
+
+    </div>
 
 
-  try {
+    <div class="add-instruction">
 
-    const result = await validateFeed(url);
+      <p>
+        把下面这一行加入
+        <code>feeds.txt</code>：
+      </p>
 
 
-    if (!result.valid) {
+      <div class="code-box">
+        ${escapeHtml(feedId)} # 节目名称
+      </div>
 
-      if (result.reason === "not_xiaoyuzhou") {
+
+      <p class="muted">
+        把“节目名称”替换成实际播客名称。
+        提交后 GitHub Actions 会自动生成兼容 RSS。
+      </p>
+
+    </div>
+
+
+    <div class="preview-actions">
+
+      <button
+        id="copy-config"
+        type="button"
+      >
+        复制配置行
+      </button>
+
+
+      <button
+        id="edit-github"
+        class="secondary"
+        type="button"
+      >
+        打开 GitHub 编辑
+      </button>
+
+    </div>
+
+  `;
+
+  previewBox.className =
+    "preview";
+
+
+  const config =
+    `${feedId} # 节目名称`;
+
+
+  document
+    .getElementById("copy-config")
+    .addEventListener(
+      "click",
+      async () => {
+
+        await copyText(config);
 
         setStatus(
-          "This is a valid RSS feed, but it is not a Xiaoyuzhou feed.",
-          "warning"
+          "配置行已复制。",
+          "success"
         );
 
-      } else if (result.reason === "not_rss") {
-
-        setStatus(
-          "This URL does not return a valid RSS feed.",
-          "error"
-        );
-
-      } else {
-
-        setStatus(
-          result.message || "This feed could not be validated.",
-          "error"
-        );
       }
+    );
+
+
+  document
+    .getElementById("edit-github")
+    .addEventListener(
+      "click",
+      () => {
+
+        window.open(
+          EDIT_FEEDS_URL,
+          "_blank",
+          "noopener"
+        );
+
+      }
+    );
+}
+
+
+form.addEventListener(
+  "submit",
+  event => {
+
+    event.preventDefault();
+
+    clearStatus();
+    clearPreview();
+
+    const url =
+      urlInput.value.trim();
+
+
+    if (!url) {
+
+      setStatus(
+        "请输入 RSS URL。",
+        "warning"
+      );
 
       return;
     }
 
 
-    showPreview(result);
+    const feedId =
+      parseFeedUrl(url);
 
 
-    if (result.exists) {
-
-      setStatus(
-        "This podcast is already in your library.",
-        "success"
-      );
-
-    } else {
+    if (!feedId) {
 
       setStatus(
-        "Valid Xiaoyuzhou RSS. You can add it to the library.",
-        "success"
+        "这不是有效的小宇宙 RSS 地址。格式应类似：https://feed.xyzfm.space/xxxxxxxxxxxx",
+        "error"
       );
 
+      return;
     }
 
-  } catch (error) {
 
-    console.error(error);
-
-    setStatus(
-      error.message || "Unable to validate this RSS feed.",
-      "error"
+    showAddInstructions(
+      feedId
     );
 
-  } finally {
-
-    checkButton.disabled = false;
-    checkButton.textContent = "Check RSS";
-
-  }
-
-});
-
-
-selectAllButton.addEventListener("click", () => {
-
-  const checkboxes =
-    document.querySelectorAll(".feed-checkbox");
-
-  const allChecked =
-    [...checkboxes].every(checkbox => checkbox.checked);
-
-  checkboxes.forEach(checkbox => {
-    checkbox.checked = !allChecked;
-  });
-
-  selectAllButton.textContent =
-    allChecked ? "Select all" : "Clear selection";
-
-});
-
-
-generateOpmlButton.addEventListener("click", () => {
-
-  const selectedIds =
-    [...document.querySelectorAll(".feed-checkbox:checked")]
-      .map(checkbox => checkbox.value);
-
-
-  if (!selectedIds.length) {
 
     setStatus(
-      "Select at least one podcast first.",
-      "warning"
+      "已识别小宇宙 RSS。",
+      "success"
     );
 
-    return;
   }
+);
 
 
-  const selectedFeeds =
-    feeds.filter(feed => selectedIds.includes(feed.id));
+selectAllButton.addEventListener(
+  "click",
+  () => {
+
+    const checkboxes =
+      document.querySelectorAll(
+        ".feed-checkbox"
+      );
 
 
-  const outlines =
-    selectedFeeds.map(feed => {
+    if (!checkboxes.length) {
+      return;
+    }
 
-      const title = escapeHtml(feed.title);
-      const rss = escapeHtml(feed.rss);
 
-      return `
+    const allChecked =
+      [...checkboxes]
+        .every(
+          checkbox =>
+            checkbox.checked
+        );
+
+
+    checkboxes.forEach(
+      checkbox => {
+        checkbox.checked =
+          !allChecked;
+      }
+    );
+
+
+    selectAllButton.textContent =
+      allChecked
+        ? "全选"
+        : "取消全选";
+  }
+);
+
+
+generateOpmlButton.addEventListener(
+  "click",
+  () => {
+
+    const selectedIds =
+      [
+        ...document.querySelectorAll(
+          ".feed-checkbox:checked"
+        )
+      ]
+        .map(
+          checkbox =>
+            checkbox.value
+        );
+
+
+    if (!selectedIds.length) {
+
+      setStatus(
+        "请至少选择一个播客。",
+        "warning"
+      );
+
+      return;
+    }
+
+
+    const selectedFeeds =
+      feeds.filter(
+        feed =>
+          selectedIds.includes(
+            feed.id
+          )
+      );
+
+
+    const outlines =
+      selectedFeeds
+        .map(feed => {
+
+          const title =
+            escapeXml(
+              feed.title
+            );
+
+          const rss =
+            escapeXml(
+              feed.rss
+            );
+
+
+          return `
     <outline
       text="${title}"
       title="${title}"
@@ -575,13 +819,15 @@ generateOpmlButton.addEventListener("click", () => {
       xmlUrl="${rss}"
     />`;
 
-    }).join("\n");
+        })
+        .join("\n");
 
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+    const xml =
+`<?xml version="1.0" encoding="UTF-8"?>
 <opml version="2.0">
   <head>
-    <title>Xiaoyuzhou Podcasts</title>
+    <title>小宇宙 Podcasts</title>
   </head>
   <body>
 ${outlines}
@@ -590,38 +836,53 @@ ${outlines}
 `;
 
 
-  const blob =
-    new Blob(
-      [xml],
-      {
-        type: "application/xml;charset=utf-8"
-      }
+    const blob =
+      new Blob(
+        [xml],
+        {
+          type:
+            "application/xml;charset=utf-8"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+    link.href = url;
+
+    link.download =
+      "xiaoyuzhou-podcasts.opml";
+
+
+    document.body.appendChild(
+      link
+    );
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(
+      url
     );
 
 
-  const url =
-    URL.createObjectURL(blob);
+    setStatus(
+      `已生成 ${selectedFeeds.length} 个播客的 OPML。`,
+      "success"
+    );
 
-
-  const link =
-    document.createElement("a");
-
-  link.href = url;
-  link.download = "xiaoyuzhou-podcasts.opml";
-
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-
-  URL.revokeObjectURL(url);
-
-
-  setStatus(
-    `Generated OPML for ${selectedFeeds.length} podcast(s).`,
-    "success"
-  );
-
-});
+  }
+);
 
 
 loadFeeds();
