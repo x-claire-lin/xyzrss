@@ -1,20 +1,28 @@
 name: Update Xiaoyuzhou RSS
 
 on:
+  # Manual trigger / API trigger.
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Update mode"
+        required: true
+        type: choice
+        options:
+          - all
+          - single
 
+      feed_id:
+        description: "Feed ID (required for single mode)"
+        required: false
+        type: string
+
+  # Taipei time:
+  # 08:00 = 00:00 UTC
+  # 13:00 = 05:00 UTC
+  # 18:00 = 10:00 UTC
   schedule:
-    # Every 30 minutes
-    - cron: "*/30 * * * *"
-
-  push:
-    branches:
-      - main
-    paths:
-      - "feeds.txt"
-      - "generate.py"
-      - ".github/workflows/update-rss.yml"
-
+    - cron: "0 0,5,10 * * *"
 
 permissions:
   contents: write
@@ -33,11 +41,30 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Generate RSS feeds
+      - name: Update all feeds
+        if: >
+          github.event_name == 'schedule' ||
+          (
+            github.event_name == 'workflow_dispatch' &&
+            github.event.inputs.mode == 'all'
+          )
         run: |
-          python generate.py
+          python generate.py --all
 
-      - name: Commit updated feeds
+      - name: Update single feed
+        if: >
+          github.event_name == 'workflow_dispatch' &&
+          github.event.inputs.mode == 'single'
+        run: |
+          if [ -z "${{ github.event.inputs.feed_id }}" ]; then
+            echo "feed_id is required for single mode"
+            exit 1
+          fi
+
+          python generate.py \
+            --feed "${{ github.event.inputs.feed_id }}"
+
+      - name: Commit generated files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -45,7 +72,7 @@ jobs:
           git add docs/
 
           if git diff --cached --quiet; then
-            echo "No changes."
+            echo "No generated changes."
           else
             git commit -m "Update RSS feeds"
             git push
