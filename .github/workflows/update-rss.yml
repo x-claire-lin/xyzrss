@@ -1,61 +1,79 @@
 name: Update Xiaoyuzhou RSS
 
 on:
-  # GitHub Actions scheduler.
-  #
-  # 00:00, 02:00, 04:00 ... UTC
-  # = 08:00, 10:00, 12:00 ... Taipei time
-  schedule:
-    - cron: "0 */2 * * *"
 
-  # Allow manual execution from:
-  # GitHub → Actions → Update Xiaoyuzhou RSS → Run workflow
+  schedule:
+    - cron: "0 */8 * * *"
+
   workflow_dispatch:
+
     inputs:
+
       feed_id:
         description: "Optional feed ID. Leave empty to update all feeds."
         required: false
         type: string
+
 
 permissions:
   contents: write
 
 
 jobs:
+
   update-rss:
+
     runs-on: ubuntu-latest
 
+
     steps:
+
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.x"
+
 
       - name: Update all feeds
         if: ${{ github.event.inputs.feed_id == '' || github.event.inputs.feed_id == null }}
         run: |
           python generate.py --all
 
+
       - name: Update single feed
         if: ${{ github.event.inputs.feed_id != '' && github.event.inputs.feed_id != null }}
         run: |
           python generate.py --feed "${{ github.event.inputs.feed_id }}"
 
+
       - name: Commit generated files
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git config user.name \
+            "github-actions[bot]"
+
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
 
           git add docs/
 
+
           if git diff --cached --quiet; then
+
             echo "No generated changes."
+
             exit 0
+
           fi
 
-          git commit -m "Update RSS feeds"
-          git push
 
+          git commit \
+            -m "Update RSS feeds"
+
+
+          git push
