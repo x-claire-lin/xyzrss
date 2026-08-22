@@ -1,6 +1,3 @@
-# `generate.py`
-
-```python
 from pathlib import Path
 import argparse
 import json
@@ -424,4 +421,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
+
