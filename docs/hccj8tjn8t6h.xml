@@ -2,15 +2,7 @@
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
   <channel>
     <title>虚构立影</title>
-    <description>一档结合专业批评方法和文学史脉络分析小说作品的节目，也聊点年轻人的话题，致力于成为“喧嚣时代的精神后花园”。
-入园提示：
-💗 本节目注重内容深度与信息密度，声音风格偏自然真实。如果你更看重声音的“低音炮”质感，可能不太适合这里，感谢理解。
-💗 评论区欢迎理性讨论，但请勿人身攻击。我会维护一个友善的讨论环境，不必要的攻击性言论可能会被删除。谢谢配合。
-欢迎你来！
-固定栏目持续更新中——
-【当红作家作品测评】：林棹、陈春成、双雪涛、张悦然、萨利·鲁尼、韩江
-【畅销书考古】：《野兰花》《上海宝贝》《花季雨季》
-【年轻小说作者介绍】：国内Z世代小说作者、欧美日韩千禧一代</description>
+    <description>一档结合专业批评方法和文学史脉络分析小说作品的节目，也聊点年轻人的话题，致力于成为“喧嚣时代的精神后花园”。</description>
     <itunes:image href="https://image.xyzcdn.net/FmFQ2IvAquRXUEGpc9c9edfgf0VM.jpg"/>
     <itunes:category text="Fiction"/>
     <itunes:category text="Society &amp; Culture"/>
