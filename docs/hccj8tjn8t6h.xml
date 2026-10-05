@@ -3,12 +3,9 @@
   <channel>
     <title>虚构立影</title>
     <description>一档结合专业批评方法和文学史脉络分析小说作品的节目，也聊点年轻人的话题。
-主播是致力于严肃文学化的专业读者，QS前20硕士、211中文系辅修，采访过一些作家，入围过几个文学奖。
-固定栏目持续更新中：
 【当红作家作品测评】：萨利·鲁尼、韩江、黎紫书、杨双子、林棹、陈春成、双雪涛、张悦然
-【畅销书考古】：《上海宝贝》《花季雨季》《野兰花》
-【年轻小说作者介绍】：国内Z世代在写什么、欧美日韩千禧一代
-欢迎订阅！</description>
+【文学史考古】：《上海宝贝》《花季雨季》《野兰花》
+【小说作者介绍】：国内Z世代在写什么、欧美日韩千禧一代</description>
     <itunes:image href="https://image.xyzcdn.net/FmFQ2IvAquRXUEGpc9c9edfgf0VM.jpg"/>
     <itunes:category text="Fiction"/>
     <itunes:category text="Society &amp; Culture"/>
@@ -25,7 +22,7 @@
     </itunes:owner>
     <itunes:type>episodic</itunes:type>
     <item>
-      <title>3个月读了200万字，一个文学批评博主的大实话（番外篇）</title>
+      <title>11 三个月读了两百万字，一个文学批评博主想要解决的问题 | 随性开麦</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6aa75e069d3264778168a797/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lpCXg987d7OFJqjsmWTW5GSfi-HV.m4a" type="audio/x-m4a" length="24014186"/>
       <guid isPermaLink="false">6aa75e069d3264778168a797</guid>
       <pubDate>Mon, 14 Sep 2026 23:00:00 GMT</pubDate>
@@ -36,7 +33,7 @@
       <itunes:image href="https://image.xyzcdn.net/FkKwEeNQdE2ljg-HlfwgJEM5cBfn.jpg"/>
     </item>
     <item>
-      <title>10 创作资源枯竭的双雪涛路在何方？【技术性分析】</title>
+      <title>10 双雪涛《平原上的摩西》好在哪？近作为什么差？| 小说技巧拆解</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6aa0f95e30dee5c2474b9ae8/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lqMk-MBChs65RSl1foZ53GEO3EcF.m4a" type="audio/x-m4a" length="46143065"/>
       <guid isPermaLink="false">6aa0f95e30dee5c2474b9ae8</guid>
       <pubDate>Wed, 09 Sep 2026 23:00:00 GMT</pubDate>
@@ -47,7 +44,7 @@
       <itunes:image href="https://image.xyzcdn.net/FmPCTKESPWmtDj0yD7OcWZA1sM3D.JPG"/>
     </item>
     <item>
-      <title>09 如何接地气地运用文学理论？从阿特伍德、《新聊斋》到单依纯MV</title>
+      <title>09 如何接地气地运用文学理论？从阿特伍德、《新聊斋》到单依纯MV | 中文系必读</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6a8318e08156bf336219c805/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lvJ1lxnAxFhFNVPwA26XZcNBFmFH.m4a" type="audio/x-m4a" length="34335805"/>
       <guid isPermaLink="false">6a8318e08156bf336219c805</guid>
       <pubDate>Mon, 17 Aug 2026 23:30:00 GMT</pubDate>
@@ -58,7 +55,7 @@
       <itunes:image href="https://image.xyzcdn.net/FiLAikHBh4IBYke5wGwC6AV_XXO_.png"/>
     </item>
     <item>
-      <title>08 深圳女孩写的“深二代”群像小说如何席卷全国？【文学史考古】</title>
+      <title>08 深圳女孩写的“深二代”群像小说如何席卷全国？| 文学史考古</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6a69821656a3f3491ba6b636/media.xyzcdn.net/69b4cdf259b3f064a8775a15/likHZuCbq6x9baKA-ZZNB6sOxLCV.m4a" type="audio/x-m4a" length="34032466"/>
       <guid isPermaLink="false">6a69821656a3f3491ba6b636</guid>
       <pubDate>Wed, 29 Jul 2026 23:00:00 GMT</pubDate>
@@ -69,7 +66,7 @@
       <itunes:image href="https://image.xyzcdn.net/Fu9QI1skGBU4cph11fguq2BaReQz.JPG"/>
     </item>
     <item>
-      <title>07 张悦然的中产阶级叙事能走多远？【技术性分析】</title>
+      <title>07 张悦然的中产阶级叙事能走多远？| 小说技巧拆解</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6a4b3f623fb7233cbf44652f/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lkX9Teu5g33HPeflnnTk0LFiCPIF.m4a" type="audio/x-m4a" length="50749212"/>
       <guid isPermaLink="false">6a4b3f623fb7233cbf44652f</guid>
       <pubDate>Mon, 06 Jul 2026 23:00:00 GMT</pubDate>
@@ -80,7 +77,7 @@
       <itunes:image href="https://image.xyzcdn.net/Fs9QYauftkbTmixa2S1l3BVWfCjG.JPG"/>
     </item>
     <item>
-      <title>06 如何专业地谈论文学？第一弹</title>
+      <title>06 如何专业地谈论文学？第一弹 | 中文系必读</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6a2e17104233e62bc5496b3d/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lkIvlcc4dIRqRX4qAJT9q9c8odBG.m4a" type="audio/x-m4a" length="28266006"/>
       <guid isPermaLink="false">6a2e17104233e62bc5496b3d</guid>
       <pubDate>Mon, 15 Jun 2026 23:00:00 GMT</pubDate>
@@ -91,7 +88,7 @@
       <itunes:image href="https://image.xyzcdn.net/FollAinAVFWbIK64F_eFDHDHXbrM.JPG"/>
     </item>
     <item>
-      <title>05 上海女作家的“身体写作”为什么后继无人？【文学史考古】</title>
+      <title>05 上海女作家的“身体写作”为什么后继无人？| 文学史考古</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6a1cede77460cabdeb5901d0/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lvffWAginjJ4BtbVydykLfNsAB4U.m4a" type="audio/x-m4a" length="40011392"/>
       <guid isPermaLink="false">6a1cede77460cabdeb5901d0</guid>
       <pubDate>Mon, 01 Jun 2026 23:00:00 GMT</pubDate>
@@ -102,7 +99,7 @@
       <itunes:image href="https://image.xyzcdn.net/FmPx2WFSo_t-CmdWfwJMctDHBYZG.jpg"/>
     </item>
     <item>
-      <title>04 《夜晚的潜水艇》后，陈春成黔驴技穷了吗？【技术性分析】</title>
+      <title>04 《夜晚的潜水艇》后，陈春成黔驴技穷了吗？| 小说技巧拆解</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6a03f5d4e1eb34a9394c69e3/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lvIEx5YW3HHZlPbJfknynGIJ3Vfk.m4a" type="audio/x-m4a" length="53476282"/>
       <guid isPermaLink="false">6a03f5d4e1eb34a9394c69e3</guid>
       <pubDate>Wed, 13 May 2026 23:00:00 GMT</pubDate>
@@ -113,7 +110,7 @@
       <itunes:image href="https://image.xyzcdn.net/FrT-MdNx6nw3IyGNwm0s9qmtQ1fm.JPG"/>
     </item>
     <item>
-      <title>03 港台大陆年轻小说作者在写什么、写得如何？</title>
+      <title>03 港台大陆年轻小说作者在写什么、写得如何？| 小说新面孔</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/69e0bb91b977fb2c471c909c/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lqjc0RCOZB4R_ojrwRIbBATKwM-y.m4a" type="audio/x-m4a" length="49444116"/>
       <guid isPermaLink="false">69e0bb91b977fb2c471c909c</guid>
       <pubDate>Wed, 29 Apr 2026 16:00:00 GMT</pubDate>
@@ -124,7 +121,7 @@
       <itunes:image href="https://image.xyzcdn.net/FhviphAjNtdH--SHKRUOsTfQrqfd.JPG"/>
     </item>
     <item>
-      <title>02 九十年代深圳“二奶文学”为什么值得重读？【文学史考古】</title>
+      <title>02 九十年代深圳“二奶文学”为什么值得重读？| 文学史考古</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/69cb4d86e2c8be3155f8ca86/media.xyzcdn.net/69b4cdf259b3f064a8775a15/ljLHiqsRxsYz_pBaPAYGz6CjYNSb.m4a" type="audio/x-m4a" length="35383927"/>
       <guid isPermaLink="false">69cb4d86e2c8be3155f8ca86</guid>
       <pubDate>Thu, 16 Apr 2026 04:00:00 GMT</pubDate>
@@ -135,7 +132,7 @@
       <itunes:image href="https://image.xyzcdn.net/FnAIwAIPsb7nu0jnnZQmksuIUZyN.png"/>
     </item>
     <item>
-      <title>01 林棹的《潮汐图》《流溪》好在哪？差在哪？【技术性分析】</title>
+      <title>01 林棹的《潮汐图》《流溪》好在哪？差在哪？| 小说技巧拆解</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/69c7464fb977fb2c476b02ca/media.xyzcdn.net/69b4cdf259b3f064a8775a15/ljLu3TqzaIsHXoez4-UW20VQMo9x.m4a" type="audio/x-m4a" length="68598700"/>
       <guid isPermaLink="false">69c7464fb977fb2c476b02ca</guid>
       <pubDate>Wed, 01 Apr 2026 16:00:00 GMT</pubDate>
