@@ -2,7 +2,15 @@
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
   <channel>
     <title>虚构立影</title>
-    <description>一档结合专业批评方法和文学史脉络分析小说作品的节目，也聊点年轻人的话题。</description>
+    <description>一档结合专业批评方法和文学史脉络分析小说作品的节目，也聊点年轻人的话题。
+主播是致力于严肃文学年轻化的专业读者，QS前20、211中文系辅修，曾任香港中华书局编辑、视频媒体记者。
+固定栏目持续更新中——
+小说技巧拆解：萨莉·鲁尼、韩江、黎紫书、杨双子、林棹、陈春成、双雪涛、张悦然
+文学史考古：《上海宝贝》身体写作、《花季雨季》深二代群像、《野兰花》深漂女性情欲书写
+小说新面孔：港台国内Gen Z小说作者、欧美日韩千禧一代作者
+新栏目孵化中……
+名人跨界写小说：李诞、颜怡颜悦、邵艺辉、伍迪·艾伦
+欢迎订阅！</description>
     <itunes:image href="https://image.xyzcdn.net/FmFQ2IvAquRXUEGpc9c9edfgf0VM.jpg"/>
     <itunes:category text="Fiction"/>
     <itunes:category text="Society &amp; Culture"/>
@@ -19,7 +27,7 @@
     </itunes:owner>
     <itunes:type>episodic</itunes:type>
     <item>
-      <title>13 九〇后湛江小伙能成为本届文学奖的最大赢家吗？ | 2026宝珀理想国首奖预测</title>
+      <title>13 九〇后湛江小伙会是本届文学奖的最大赢家吗？ | 2026宝珀理想国首奖预测</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6acf3b8de742e36efcc2d64f/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lnx1Ek-5U1nYF-h9btXmcQ_GpRJg.m4a" type="audio/x-m4a" length="30068261"/>
       <guid isPermaLink="false">6acf3b8de742e36efcc2d64f</guid>
       <pubDate>Wed, 14 Oct 2026 23:00:00 GMT</pubDate>
@@ -140,7 +148,7 @@
       <itunes:image href="https://image.xyzcdn.net/FhviphAjNtdH--SHKRUOsTfQrqfd.JPG"/>
     </item>
     <item>
-      <title>02 九十年代深圳“二奶文学”为什么值得重读？| 文学史考古</title>
+      <title>02 第一代深漂女性的情欲书写 | 文学史考古</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/69cb4d86e2c8be3155f8ca86/media.xyzcdn.net/69b4cdf259b3f064a8775a15/ljLHiqsRxsYz_pBaPAYGz6CjYNSb.m4a" type="audio/x-m4a" length="35383927"/>
       <guid isPermaLink="false">69cb4d86e2c8be3155f8ca86</guid>
       <pubDate>Thu, 16 Apr 2026 04:00:00 GMT</pubDate>
