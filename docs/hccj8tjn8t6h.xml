@@ -2,15 +2,8 @@
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
   <channel>
     <title>虚构立影</title>
-    <description>一档结合专业批评方法和文学史脉络分析小说作品的节目，也聊点年轻人的话题。
-主播是致力于严肃文学年轻化的专业读者，QS前20硕、211中文系辅修，曾任香港中华书局编辑、视频媒体记者。
-固定栏目持续更新中——
-小说技巧拆解：萨莉·鲁尼、韩江、黎紫书、杨双子、林棹、陈春成、双雪涛、张悦然
-文学史考古：《上海宝贝》身体写作、《花季雨季》深二代群像、《野兰花》深漂女性情欲书写
-小说新面孔：港台国内Gen Z小说作者、欧美日韩千禧一代作者
-新栏目孵化中……
-名人跨界写小说：李诞、颜怡颜悦、邵艺辉、伍迪·艾伦
-欢迎订阅！</description>
+    <description>用专业文学批评的刀，解剖当下最热的作家和作品。不迎合、不唱衰，只提供有文本依据的判断。
+每月两期，让严肃文学变得年轻可听，带你看懂当代小说和文坛。</description>
     <itunes:image href="https://image.xyzcdn.net/FmFQ2IvAquRXUEGpc9c9edfgf0VM.jpg"/>
     <itunes:category text="Fiction"/>
     <itunes:category text="Society &amp; Culture"/>
@@ -60,7 +53,7 @@
       <itunes:image href="https://image.xyzcdn.net/FkKwEeNQdE2ljg-HlfwgJEM5cBfn.jpg"/>
     </item>
     <item>
-      <title>10 双雪涛《平原上的摩西》好在哪？近作为什么差？| 小说技巧拆解</title>
+      <title>10 双雪涛《平原上的摩西》好在哪？近作为什么差？| 当红作家测评</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6aa0f95e30dee5c2474b9ae8/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lqMk-MBChs65RSl1foZ53GEO3EcF.m4a" type="audio/x-m4a" length="46143065"/>
       <guid isPermaLink="false">6aa0f95e30dee5c2474b9ae8</guid>
       <pubDate>Wed, 09 Sep 2026 23:00:00 GMT</pubDate>
@@ -93,7 +86,7 @@
       <itunes:image href="https://image.xyzcdn.net/Fu9QI1skGBU4cph11fguq2BaReQz.JPG"/>
     </item>
     <item>
-      <title>07 张悦然的中产阶级叙事能走多远？| 小说技巧拆解</title>
+      <title>07 张悦然的中产阶级叙事能走多远？| 当红作家测评</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6a4b3f623fb7233cbf44652f/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lkX9Teu5g33HPeflnnTk0LFiCPIF.m4a" type="audio/x-m4a" length="50749212"/>
       <guid isPermaLink="false">6a4b3f623fb7233cbf44652f</guid>
       <pubDate>Mon, 06 Jul 2026 23:00:00 GMT</pubDate>
@@ -126,7 +119,7 @@
       <itunes:image href="https://image.xyzcdn.net/FmPx2WFSo_t-CmdWfwJMctDHBYZG.jpg"/>
     </item>
     <item>
-      <title>04 《夜晚的潜水艇》后，陈春成黔驴技穷了吗？| 小说技巧拆解</title>
+      <title>04 《夜晚的潜水艇》后，陈春成黔驴技穷了吗？| 当红作家测评</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/6a03f5d4e1eb34a9394c69e3/media.xyzcdn.net/69b4cdf259b3f064a8775a15/lvIEx5YW3HHZlPbJfknynGIJ3Vfk.m4a" type="audio/x-m4a" length="53476282"/>
       <guid isPermaLink="false">6a03f5d4e1eb34a9394c69e3</guid>
       <pubDate>Wed, 13 May 2026 23:00:00 GMT</pubDate>
@@ -159,7 +152,7 @@
       <itunes:image href="https://image.xyzcdn.net/FnAIwAIPsb7nu0jnnZQmksuIUZyN.png"/>
     </item>
     <item>
-      <title>01 林棹的《潮汐图》《流溪》好在哪？差在哪？| 小说技巧拆解</title>
+      <title>01 林棹的《潮汐图》《流溪》好在哪？差在哪？| 当红作家测评</title>
       <enclosure url="https://dts-api.xiaoyuzhoufm.com/track/69b4cdf259b3f064a8775a15/69c7464fb977fb2c476b02ca/media.xyzcdn.net/69b4cdf259b3f064a8775a15/ljLu3TqzaIsHXoez4-UW20VQMo9x.m4a" type="audio/x-m4a" length="68598700"/>
       <guid isPermaLink="false">69c7464fb977fb2c476b02ca</guid>
       <pubDate>Wed, 01 Apr 2026 16:00:00 GMT</pubDate>
